@@ -21,7 +21,7 @@
  */ 
 ;(function($,context){
   
-  if(Number($.fn.jquery.replace(/\./g)) < 141){
+  if(Number($.fn.jquery.replace(/\./g)) < 143){
     throw 'jQuery Routes requires jQuery 1.4.3 or later.';
   }
   
