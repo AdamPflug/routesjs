@@ -17,6 +17,7 @@
 /* 
  * jQuery Routes
  * =============
+ * **Download:** [Development](https://github.com/syntacticx/routesjs/zipball/master) | [Production (6KB)](https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js)
  */ 
 ;(function($,context){
   
