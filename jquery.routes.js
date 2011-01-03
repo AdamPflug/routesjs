@@ -2,10 +2,10 @@
 // jQuery Routes v1.0
 // http://routesjs.com/
 // 
-// Copyright (c) 2011 Ryan Johnson
+// Copyright (c) 2011 Syntacticx
 // http://syntacticx.com/
 // 
-// Released under the MIT license.
+// Dual licensed under the MIT or GPL Version 2 licenses.
 //
 // jQuery Address Plugin v1.3.1
 // http://www.asual.com/jquery/address/
@@ -412,6 +412,10 @@
 /* 
  * Change Log
  * ----------
- * **1.0.0** - *Jan 2, 2010*
+ * **1.0.0** - *Jan 2, 2011*
  * Initial release.
+ * 
+ * ---
+ * 
+ * Copyright 2011 [Syntacticx](http://syntacticx.com/). Released under the [MIT or GPL License](http://jquery.org/license)
  */ 
