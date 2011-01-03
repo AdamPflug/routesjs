@@ -17,7 +17,9 @@
 /* 
  * jQuery Routes
  * =============
- * **Download:** [Development](https://github.com/syntacticx/routesjs/zipball/master) | [Production (6KB)](https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js)
+ * **Download:** [Development](https://github.com/syntacticx/routesjs/zipball/master) | [Production (6KB)](https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js)  
+ * **See Also:** [jQuery View](http://viewjs.com/) | [jQuery Model](http://modeljs.com/)
+ * 
  */ 
 ;(function($,context){
   
@@ -25,27 +27,31 @@
     throw 'jQuery Routes requires jQuery 1.4.3 or later.';
   }
   
-  /* Maps urls to method calls and method calls to urls. This enables back button
-   * support, deep linking and allows methods to be called by normal links
-   * in your application without adding event handlers or additional code to each link.
+  /* Rails style routing for jQuery. Enables back button support, deep linking and allows
+   * methods to be called by normal links in your application without adding an event handler.
+   * Methods that have been specified in your routes will automatically set the URL of the page
+   * when called.
    * 
    *     $.routes({
    *       "/": "PageView#home",
-   *       "/article/:id": "ArticlesView#article"
+   *       "/article/:id": "ArticlesView#article",
+   *       "/about/(:page_name)": function(params){}
    *     });
-   *     
-   *     //PageView.instance().home() automatically called 
-   *     
-   *     $.routes("set","/article/5");
-   *     //ArticlesView.instance().article({id:5}) automatically called
-   *     
-   *     ArticlesView.instance().article({id:6});
-   *     //$.routes("set","/article/6"); automatically called
    * 
-   * Methods
+   *     Clicking: <a href="#/article/5"></a>
+   *     Will call: ArticlesView.instance().article({id:5})
+   *     
+   *     Calling: ArticlesView.instance().article({id:6})
+   *     Will set URL: "#/article/6"
+   * 
+   * jQuery Routes depends on the [jQuery Address](http://www.asual.com/jquery/address/)
+   * plugin which is included in the production build.
+   * 
+   * Setup
    * -------
    * 
-   * ### $.routes*(Object routes \[,Boolean lazy_loading = false\]) -> null*
+   * **$.routes**(Object routes \[,Boolean lazy_loading = false\]) -> null  
+   * 
    * Calling routes will start routes in your appliction, dispatching the current
    * address present in the url bar of the browser. If no address is present on
    * the page **$.routes("set","/")** will automatically be called.
@@ -54,7 +60,8 @@
    * to automatically set the path and will prevent **instance** from being called
    * on each specified object. This is useful in large applications where you do
    * not want all views with routes initialized when $.routes starts. You can
-   * manually setup each callback using **$.routes("setup",callback)**
+   * manually setup each callback using **$.routes("setup",callback)** An example call
+   * to $.routes:
    * 
    *     $.routes({
    *       "/": "PageView#home",
@@ -75,8 +82,34 @@
    * Supported types of callbacks:
    * 
    * - "PageView#home" - Will call PageView.instance().home()
-   * - "Object.method" - Will call Object.method()
    * - function(){} - Will call the specified function.
+   * 
+   * Singletons
+   * ----------
+   * jQuery Routes assumes that all classes specified in routes implement the
+   * [Singleton pattern](http://en.wikipedia.org/wiki/Singleton_pattern) and
+   * will attempt to get an instance of the class via method named **instance**.
+   * For example the route "PageView#home" will attempt to call:
+   * 
+   *     PageView.instance().home()
+   * 
+   * To implement the singleton pattern in your code:
+   * 
+   *     MyClass = function(){};
+   *     
+   *     MyClass._instance = false;
+   *     
+   *     MyClass.instance = function(){
+   *       if(!MyClass._instance){
+   *         MyClass._instance = new MyClass();
+   *       }
+   *       return MyClass._instance;
+   *     };
+   * 
+   * [jQuery View](http://viewjs.com/) classes implement the singleton pattern.
+   *
+   * Methods
+   * -------
    * 
    */
   $.routes = function(routes,lazy_loading){
@@ -375,3 +408,10 @@
   };
   
 })(jQuery,this);
+
+/* 
+ * Change Log
+ * ----------
+ * **1.0.0** - *Jan 2, 2010*
+ * Initial release.
+ */ 

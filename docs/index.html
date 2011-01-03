@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery Routes</title>
+    <link rel="stylesheet" media="screen" href="screen.css"/>
+    <style>
+      html {
+  margin:0;
+  padding:0;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial;
+  font-size:11px;
+  width:600px;
+  padding:0 20px 0 200px;
+}
+
+a {
+  color:#0f67a1;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+
+h1 {
+  color: black;
+  font-family: 'Myriad Pro', 'Helvetica Neue', Helvetica, Arial;
+  font-size: 96px;
+  letter-spacing: -4px;
+  margin: 0px;
+  padding: 20px 0px 20px 0;
+  text-shadow: #ccc 2px 2px 0px;
+}
+
+h2 {
+  font-size:24px;
+  border-top:1px solid #ccc;
+  padding-top:16px;
+  margin-top:16px;
+  margin-bottom:16px;
+}
+
+h3 {
+  border-top:1px solid #ccc;
+  font-size:14px;
+  color:#000;
+  padding-top:11px;
+  margin-top:11px;
+  margin-bottom:11px;
+}
+
+h3 em {
+  font-style:normal;
+  font-size:14px;
+  color:#333;
+  font-weight:normal;
+}
+
+pre {
+  background-color:#f7f7f7;
+  display:block;
+  border-left:4px solid #bbb;
+  border-right:4px solid #bbb;
+  font-size:12px;
+  line-height:18px;
+  padding:7px 15px 7px 15px;
+  font-family: Monaco, Consolas, 'Lucida Console', monospace;
+}
+
+p {
+  font-size: 14px;
+  line-height: 22px;
+  margin-bottom: 11px;
+  margin-top:0;
+  padding:0;
+}
+
+ul {
+  padding-top:0;
+  margin-top:0;
+  margin-bottom:11px;
+}
+
+li {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+#toc {
+  width:150px;
+  position:fixed;
+  top:35px;
+  left:35px;
+}
+
+#toc ul {
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+#toc li {
+  padding:0;
+  margin:0;
+}
+
+#toc h1,
+#toc h1 a,
+#toc h2,
+#toc h2 a {
+  font-family: 'Helvetica Neue', Helvetica, Arial;
+  letter-spacing:inherit;
+  text-shadow:none;
+  border-top:none;
+  color:#000;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 22px;
+  margin-top: 15px;
+  text-decoration: none;
+  border-bottom:none;
+  padding:0;
+  margin:0;
+}
+
+#toc h2 {
+  padding-top:15px;
+}
+
+#toc h3,
+#toc h3 a {
+  border-top:none;
+  color:#000;
+  font-family: 'Lucida Grande';
+  font-size: 11px;
+  line-height: 14px;
+  padding:0;
+  margin:0;
+  text-decoration: none;
+}
+
+#toc h3 {
+  padding:3px 0;
+}
+
+#toc h1 a:hover,
+#toc h2 a:hover,
+#toc h3 a:hover {
+  text-decoration:underline;
+}
+
+    </style>
+  </head>
+  <body>
+    <h1 id='jquery_routes'>jQuery Routes</h1>
+
+<p><strong>Download:</strong> <a href='https://github.com/syntacticx/routesjs/zipball/master'>Development</a> | <a href='https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js'>Production (6KB)</a><br /><strong>See Also:</strong> <a href='http://viewjs.com/'>jQuery View</a> | <a href='http://modeljs.com/'>jQuery Model</a></p>
+
+<p>Rails style routing for jQuery. Enables back button support, deep linking and allows methods to be called by normal links in your application without adding an event handler. Methods that have been specified in your routes will automatically set the URL of the page when called.</p>
+
+<pre><code>$.routes({
+  &quot;/&quot;: &quot;PageView#home&quot;,
+  &quot;/article/:id&quot;: &quot;ArticlesView#article&quot;,
+  &quot;/about/(:page_name)&quot;: function(params){}
+});
+
+Clicking: &lt;a href=&quot;#/article/5&quot;&gt;&lt;/a&gt;
+Will call: ArticlesView.instance().article({id:5})
+
+Calling: ArticlesView.instance().article({id:6})
+Will set URL: &quot;#/article/6&quot;</code></pre>
+
+<p>jQuery Routes depends on the <a href='http://www.asual.com/jquery/address/'>jQuery Address</a> plugin which is included in the production build.</p>
+
+<h2 id='setup'>Setup</h2>
+
+<p><strong>$.routes</strong>(Object routes [,Boolean lazy_loading = false]) -&gt; null</p>
+
+<p>Calling routes will start routes in your appliction, dispatching the current address present in the url bar of the browser. If no address is present on the page <strong>$.routes(&#8220;set&#8221;,&#8221;/&#8221;)</strong> will automatically be called.</p>
+
+<p>Setting <strong>lazy_loading</strong> to true will prevent your callbacks from being setup for to automatically set the path and will prevent <strong>instance</strong> from being called on each specified object. This is useful in large applications where you do not want all views with routes initialized when $.routes starts. You can manually setup each callback using <strong>$.routes(&#8220;setup&#8221;,callback)</strong> An example call to $.routes:</p>
+
+<pre><code>$.routes({
+  &quot;/&quot;: &quot;PageView#home&quot;,
+  &quot;/article/:id&quot;: &quot;ArticlesView#article&quot;,
+  &quot;/about/(:page_name)&quot;: &quot;PageView#page&quot;,
+  &quot;/wiki/*&quot;: &quot;WikiView#page&quot;,
+  &quot;/class_method&quot;: &quot;Object.method&quot;,
+  &quot;/callback&quot;: function(){}
+});</code></pre>
+
+<p>Supported types of paths:</p>
+
+<ul>
+<li>&#8221;/&#8221; - A plain path with no parameters.</li>
+
+<li>&#8220;/article/:id&#8221; - A path with a required named parameter.</li>
+
+<li>&#8220;/about/(:page_name)&#8221; - A path with an optional named paramter.</li>
+
+<li>&#8220;/wiki/*&#8221; - A path with an asterix / wildcard.</li>
+</ul>
+
+<p>Supported types of callbacks:</p>
+
+<ul>
+<li>&#8220;PageView#home&#8221; - Will call PageView.instance().home()</li>
+
+<li>function(){} - Will call the specified function.</li>
+</ul>
+
+<h2 id='singletons'>Singletons</h2>
+
+<p>jQuery Routes assumes that all classes specified in routes implement the <a href='http://en.wikipedia.org/wiki/Singleton_pattern'>Singleton pattern</a> and will attempt to get an instance of the class via method named <strong>instance</strong>. For example the route &#8220;PageView#home&#8221; will attempt to call:</p>
+
+<pre><code>PageView.instance().home()</code></pre>
+
+<p>To implement the singleton pattern in your code:</p>
+
+<pre><code>MyClass = function(){};
+
+MyClass._instance = false;
+
+MyClass.instance = function(){
+  if(!MyClass._instance){
+    MyClass._instance = new MyClass();
+  }
+  return MyClass._instance;
+};</code></pre>
+
+<p><a href='http://viewjs.com/'>jQuery View</a> classes implement the singleton pattern.</p>
+
+<h2 id='methods'>Methods</h2>
+
+<h3 id='routesurl_string_callback_object_params__string'>$.routes(&#8220;url&#8221;<em>, String callback [,Object params]</em>) <em>-&gt; String</em></h3>
+
+<p>Generates a url for a route.</p>
+
+<pre><code>var url = $.routes(&quot;url&quot;,&quot;ArticlesView#article&quot;,{id:5});
+url == &quot;/article/5&quot;</code></pre>
+
+<h3 id='routesget__string'>$.routes(&#8220;get&#8221;) <em>-&gt; String</em></h3>
+
+<p>Returns the current address / path.</p>
+
+<h3 id='routesset__null'>$.routes(&#8220;set&#8221;) <em>-&gt; null</em></h3>
+
+<p>Sets the current address / path, calling the matched route if a match is found.</p>
+
+<pre><code>$.routes(&quot;set&quot;,&quot;/article/5&quot;);</code></pre>
+
+<h3 id='routesadd_string_path_string_callback__null'>$.routes(&#8220;add&#8221;<em>, String path, String callback</em>) <em>-&gt; null</em></h3>
+
+<p>Add a new route.</p>
+
+<pre><code>$.routes(&quot;add&quot;,&quot;/article/:id&quot;,&quot;ArticlesView#article&quot;);</code></pre>
+
+<h3 id='routesmatch_string_path__array_function_callback_object_params'>$.routes(&#8220;match&#8221;<em>, String path</em>) <em>-&gt; Array [Function callback, Object params]</em></h3>
+
+<pre><code>var match = $.routes(&quot;match&quot;,&quot;/article/5&quot;);
+match[0](match[1]);</code></pre>
+
+<h3 id='routessetup_string_callback__null'>$.routes(&#8220;setup&#8221;<em>, String callback</em>) <em>-&gt; null</em></h3>
+
+<p>If lazy loading is enabled each callback will need to be setup to enable the automatic call to $.routes(&#8220;set&#8221;,path) when the callback is invoked.</p>
+
+<pre><code>$.routes(&quot;setup&quot;,&quot;ArticlesView#article&quot;);
+ArticlesView.instance().article({id:5});
+$.routes(&quot;get&quot;) == &quot;/article/5&quot;</code></pre>
+
+<h3 id='routesstop__null'>$.routes(&#8220;stop&#8221;) <em>-&gt; null</em></h3>
+
+<p>Stops the routing plugin from handling changes in the page address.</p>
+
+<h3 id='routesstart__null'>$.routes(&#8220;start&#8221;) <em>-&gt; null</em></h3>
+
+<p>Called implicitly when you specify your routes. Only necessary if <strong>stop</strong> has been called.</p>
+
+<h2 id='properties'>Properties</h2>
+
+<h3 id='routesdispatcher__function'>$.routes.dispatcher <em>-&gt; Function</em></h3>
+
+<p>The <strong>dispatcher</strong> property is a function invoked each time the route / path changes. It is called with Function callback, Object params, String path. The default dispatcher calls the callback with the params.</p>
+
+<pre><code>$.routes.dispatcher = function(callback,params,path){
+  callback(params);
+};</code></pre>
+
+<h3 id='routeshistory__array'>$.routes.history <em>-&gt; Array</em></h3>
+
+<p>The history array contains a list of dispatched routes since $.routes was initialized. Each item in the array is an array containing [String path,Function callback,Object params]</p>
+
+<h2 id='change_log'>Change Log</h2>
+
+<p><strong>1.0.0</strong> - <em>Jan 2, 2010</em> Initial release.</p>
+    <div id="toc"><ul>
+<h1><a href='#jquery_routes'>jQuery Routes</a></h1>
+<h2><a href='#setup'>Setup</a></h2>
+<h2><a href='#singletons'>Singletons</a></h2>
+<h2><a href='#methods'>Methods</a></h2>
+<h3>- <a href='#routesurl_string_callback_object_params__string'>url</a></h3>
+<h3>- <a href='#routesget__string'>get</a></h3>
+<h3>- <a href='#routesset__null'>set</a></h3>
+<h3>- <a href='#routesadd_string_path_string_callback__null'>add</a></h3>
+<h3>- <a href='#routesmatch_string_path__array_function_callback_object_params'>match</a></h3>
+<h3>- <a href='#routessetup_string_callback__null'>setup</a></h3>
+<h3>- <a href='#routesstop__null'>stop</a></h3>
+<h3>- <a href='#routesstart__null'>start</a></h3>
+<h2><a href='#properties'>Properties</a></h2>
+<h3>- <a href='#routesdispatcher__function'>dispatcher </a></h3>
+<h3>- <a href='#routeshistory__array'>history </a></h3>
+<h2><a href='#change_log'>Change Log</a></h2>
+</ul></div>
+  </body>
+</html>

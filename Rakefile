@@ -18,10 +18,24 @@ task :build do
 end
 
 task :docs do
-  require 'simpledoc'
+  require '../simpledoc/simpledoc'
   SimpleDoc.new('jquery.routes.js',
     :title => 'jQuery Routes',
     :target => 'docs/index.html',
     :namespace => '$.routes'
   )
+  #write README
+  source = File.read('jquery.routes.js')
+  readme_lines = []
+  lines = source.split("\n")
+  lines.each_with_index do |line,i|
+    if line.match /^\s+?\/?\*\s/
+      break if(line.match(/^\s+?\/?\*\s\-\-\-/))
+      readme_lines.push(line.gsub(/^\s+?\/?\*\s/,''))
+    end
+  end
+  readme_lines.pop
+  File.open("README.markdown",'w+') do |file|
+    file.write readme_lines.join("\n")
+  end
 end
