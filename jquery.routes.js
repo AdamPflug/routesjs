@@ -106,7 +106,8 @@
    *       return MyClass._instance;
    *     };
    * 
-   * [jQuery View](http://viewjs.com/) classes implement the singleton pattern.
+   * [jQuery View](http://viewjs.com/) classes implement the singleton pattern. Routing
+   * to classes is not a requirement, anonymous functions can always be used instead.
    *
    * Methods
    * -------
