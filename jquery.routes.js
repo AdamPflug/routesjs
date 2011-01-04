@@ -413,10 +413,11 @@
 /* 
  * Change Log
  * ----------
- * **1.0.0** - *Jan 2, 2011*
+ * **1.0.0** - *Jan 2, 2011*  
  * Initial release.
  * 
  * ---
  * 
- * Copyright 2011 [Syntacticx](http://syntacticx.com/). Released under the [MIT or GPL License](http://jquery.org/license)
+ * Copyright 2011 [Syntacticx](http://syntacticx.com/). Released under the [MIT or GPL License](http://jquery.org/license)  
+ * Style inspired by [Backbone.js](http://documentcloud.github.com/backbone/)
  */ 
