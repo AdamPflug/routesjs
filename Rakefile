@@ -94,7 +94,7 @@ class SimpleDoc
     toc.join("\n")
   end
   
-  def self.default_html(body,toc)
+  def self.default_html(title,body,toc)
     <<-EOS
 <!DOCTYPE html>
 <html>
