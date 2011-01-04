@@ -88,7 +88,7 @@
    * ----------
    * jQuery Routes assumes that all classes specified in routes implement the
    * [Singleton pattern](http://en.wikipedia.org/wiki/Singleton_pattern) and
-   * will attempt to get an instance of the class via method named **instance**.
+   * will attempt to get an instance of the class via a method named **instance**.
    * For example the route "PageView#home" will attempt to call:
    * 
    *     PageView.instance().home()

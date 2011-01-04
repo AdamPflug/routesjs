@@ -53,7 +53,8 @@ class SimpleDoc
       generated_html = html_from_doc_lines(doc_lines)
       file.write((@params[:html] ? @params[:html] : SimpleDoc.method(:default_html)).call(
         generated_html,
-        toc_from_html(generated_html)
+        toc_from_html(generated_html),
+        @params[:title]
       ))
     end
   end
@@ -98,7 +99,7 @@ class SimpleDoc
 <!DOCTYPE html>
 <html>
   <head>
-    <title>jQuery Routes</title>
+    <title>#{title}</title>
     <link rel="stylesheet" media="screen" href="screen.css"/>
   </head>
   <body>
