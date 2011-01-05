@@ -1,3 +1,4 @@
+var last_params;
 ViewWithRoutes = $.view(function(){
   return this.div();
 },{
@@ -15,7 +16,11 @@ ViewWithRoutes = $.view(function(){
   test: function(){},
   optionalOne: function(){},
   optionalTwo: function(){},
-  optionalThree: function(){}
+  optionalThree: function(){},
+  extraParams: function(params){
+    console.log('extraParams called with',params);
+    last_params = params;
+  }
 });
 
 Deep = {
@@ -40,7 +45,8 @@ $.routes({
   '/one/:a/(:b)/(:c)': 'ViewWithRoutes#optionalTwo',
   '/one/:a/(:b)/(:c)/(:d)/(:e)': 'ViewWithRoutes#optionalThree',
   '/:ViewWithRoutes/:method/:id': 'ViewWithRoutes#test',
-  '/nested_test/': 'Deep.Nested.TestView#test'
+  '/nested_test/': 'Deep.Nested.TestView#test',
+  '/extra_params/:a': ['ViewWithRoutes#extraParams',{b:'b'}]
 });
 
 test('Url generation',function(){
@@ -104,6 +110,28 @@ test('Nested objects can contain routable views',function(){
   $.routes("set",'/nested_test/');
   equal(Deep.Nested.TestView.wasCalled,true);
 });
+
+/*
+test("Extra params are passed to method callback",function(){
+  last_params = null;
+  console.log('calling direct');
+  ViewWithRoutes.instance().extraParams({
+    a: 'a'
+  });
+  equal(last_params.a,'a');
+  equal(last_params.b,'b');
+  last_params = null;
+  $.routes('set','/extra_params/a');
+  equal(last_params.a,'a');
+  equal(last_params.b,'b');
+  last_params = null;
+});
+
+test("Extra params are passed to anon calback",function(){
+  
+});
+
+*/
 
 asyncTest('Method calling and dispatch modifies address',function(){
   setTimeout(function(){

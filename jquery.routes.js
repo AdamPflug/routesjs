@@ -410,7 +410,12 @@
   
 })(jQuery,this);
 
-/* 
+/*
+ * Examples
+ * --------
+ * - [PhotoFolder](http://photofolder.org/)
+ * - [Simple Example](http://routesjs.com/examples/simple.html)
+ * 
  * Change Log
  * ----------
  * **1.0.0** - *Jan 2, 2011*  

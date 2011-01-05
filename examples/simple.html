@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery Routes Example</title>
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/jquery.address.js"></script>
+    <script src="../jquery.routes.js"></script>
+    <script>
+      $.routes({
+        '/': function(){
+          $('#content').html('Select an item.');
+        },
+        '/:number': function(params){
+          $('#content').html(params.number + ' selected');
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <p>Once an item has been selected, use the back button to go to the previous item.</p>
+    <ul>
+      <li><a href="#/one">One</a></li>
+      <li><a href="#/two">Two</a></li>
+      <li><a href="#/three">Three</a></li>
+    </ul>
+    <div id="content"></div>
+  </body>
+</html>
