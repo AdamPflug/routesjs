@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>jQuery Routes</title>
-    <link rel="stylesheet" media="screen" href="screen.css"/>
-  </head>
-  <body>
-    <h1 id='jquery_routes'>jQuery Routes</h1>
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>jQuery Routes</title>
+          <link rel="stylesheet" media="screen" href="screen.css"/>
+        </head>
+        <body>
+          <h1 id='jquery_routes'>jQuery Routes</h1>
 
 <p><strong>Download:</strong> <a href='https://github.com/syntacticx/routesjs/zipball/master'>Development</a> | <a href='https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js'>Production (6KB)</a><br /><strong>See Also:</strong> <a href='http://viewjs.com/'>jQuery View</a> | <a href='http://modeljs.com/'>jQuery Model</a></p>
 
@@ -24,6 +24,18 @@ Calling: ArticlesView.instance().article({id:6})
 Will set URL: &quot;#/article/6&quot;</code></pre>
 
 <p>jQuery Routes depends on the <a href='http://www.asual.com/jquery/address/'>jQuery Address</a> plugin which is included in the production build.</p>
+
+<h2 id='capture_mode'>Capture Mode</h2>
+
+<p>Alternatively, you can use jQuery Routes to emulate the <strong>hashchange</strong> event</p>
+
+<pre><code>$.routes(function(new_hash){
+  //do sstuff
+});</code></pre>
+
+<p>To unregister the handler above:</p>
+
+<pre><code>$.routes(false);</code></pre>
 
 <h2 id='setup'>Setup</h2>
 
@@ -153,27 +165,24 @@ $.routes(&quot;get&quot;) == &quot;/article/5&quot;</code></pre>
 
 <h2 id='change_log'>Change Log</h2>
 
+<p><strong>1.1</strong> - <em>Jan 9, 2011</em><br />Added hashchange event emulation.</p>
+
 <p><strong>1.0.0</strong> - <em>Jan 2, 2011</em><br />Initial release.</p>
 <hr />
 <p>Copyright 2011 <a href='http://syntacticx.com/'>Syntacticx</a>. Released under the <a href='http://jquery.org/license'>MIT or GPL License</a><br />Style inspired by <a href='http://documentcloud.github.com/backbone/'>Backbone.js</a></p>
-    <div id="toc"><ul>
-<h1><a href='#jquery_routes'>jQuery Routes</a></h1>
-<h2><a href='#setup'>Setup</a></h2>
-<h2><a href='#singletons'>Singletons</a></h2>
-<h2><a href='#methods'>Methods</a></h2>
-<h3>- <a href='#routesurl_string_callback_object_params__string'>url</a></h3>
-<h3>- <a href='#routesget__string'>get</a></h3>
-<h3>- <a href='#routesset__null'>set</a></h3>
-<h3>- <a href='#routesadd_string_path_string_callback__null'>add</a></h3>
-<h3>- <a href='#routesmatch_string_path__array_function_callback_object_params'>match</a></h3>
-<h3>- <a href='#routessetup_string_callback__null'>setup</a></h3>
-<h3>- <a href='#routesstop__null'>stop</a></h3>
-<h3>- <a href='#routesstart__null'>start</a></h3>
-<h2><a href='#properties'>Properties</a></h2>
-<h3>- <a href='#routesdispatcher__function'>dispatcher </a></h3>
-<h3>- <a href='#routeshistory__array'>history </a></h3>
-<h2><a href='#examples'>Examples</a></h2>
-<h2><a href='#change_log'>Change Log</a></h2>
-</ul></div>
-  </body>
-</html>
+          <div id="toc"></div>
+          <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-20694546-2']);
+            _gaq.push(['_trackPageview']);
+
+            (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+          </script>
+        </body>
+      </html>

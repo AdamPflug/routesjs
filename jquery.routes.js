@@ -1,5 +1,5 @@
 //
-// jQuery Routes v1.0
+// jQuery Routes v1.1
 // http://routesjs.com/
 // 
 // Copyright (c) 2011 Syntacticx
@@ -46,6 +46,18 @@
    * 
    * jQuery Routes depends on the [jQuery Address](http://www.asual.com/jquery/address/)
    * plugin which is included in the production build.
+   * 
+   * Capture Mode
+   * ------------
+   * Alternatively, you can use jQuery Routes to emulate the **hashchange** event
+   * 
+   *     $.routes(function(new_hash){
+   *       //do sstuff
+   *     });
+   * 
+   * To unregister the handler above:
+   * 
+   *     $.routes(false);
    * 
    * Setup
    * -------
@@ -117,7 +129,13 @@
     if(typeof($.address) == 'undefined'){
       throw 'jQuery Address (http://www.asual.com/jquery/address/) is required to run jQuery View Routes';
     }
-    if(typeof(routes) == 'string'){  
+    if(typeof(routes == 'function')){
+      $.address.bind('externalChange',function(){
+        routes(window.location.href.match('#') ? window.location.href.split('#').pop() : '');
+      });
+    }else if(routes === false){
+      $($.address).unbind('externalChange');
+    }else if(typeof(routes) == 'string'){
       var method_name = routes;
       if(method_name == 'start'){
         return start();
@@ -418,6 +436,9 @@
  * 
  * Change Log
  * ----------
+ * **1.1** - *Jan 9, 2011*  
+ * Added hashchange event emulation.
+ * 
  * **1.0.0** - *Jan 2, 2011*  
  * Initial release.
  * 
