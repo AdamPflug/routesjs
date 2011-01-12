@@ -47,12 +47,10 @@
    * jQuery Routes depends on the [jQuery Address](http://www.asual.com/jquery/address/)
    * plugin which is included in the production build.
    * 
-   * Capture Mode
-   * ------------
    * Alternatively, you can use jQuery Routes to emulate the **hashchange** event
    * 
    *     $.routes(function(new_hash){
-   *       //do sstuff
+   *       //do stuff
    *     });
    * 
    * To unregister the handler above:

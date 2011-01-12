@@ -24,7 +24,16 @@ task :docs do
     :title => 'jQuery Routes',
     :target => 'docs/index.html',
     :namespace => '$.routes',
-    :toc => nil,
+    :toc => Proc.new{|toc|
+      output = ['<ul>']
+      toc.each do |item|
+        tag,id,content = item
+        content = content.gsub(/\$\.routes(\.|\([^a-z]+)/,'').gsub(/(&#8221;)?\)?/,'')
+        output.push("<li><#{tag}>#{tag == 'h3' ? '- ' : ''}<a href=\"##{id}\">#{content}</a></#{tag}></li>")
+      end
+      output.push('</ul>')
+      output.join('')
+    },
     :html => Proc.new{|title,body,toc|
       <<-EOS
       <!DOCTYPE html>
