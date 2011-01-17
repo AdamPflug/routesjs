@@ -127,7 +127,7 @@
     if(typeof($.address) == 'undefined'){
       throw 'jQuery Address (http://www.asual.com/jquery/address/) is required to run jQuery View Routes';
     }
-    if(typeof(routes == 'function')){
+    if(typeof(routes) == 'function'){
       $.address.bind('externalChange',function(){
         routes(window.location.href.match('#') ? window.location.href.split('#').pop() : '');
       });
