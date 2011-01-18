@@ -1,7 +1,7 @@
 jQuery Routes
 =============
 **Download:** [Development](https://github.com/syntacticx/routesjs/zipball/master) | [Production (6KB)](https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js)  
-**See Also:** [jQuery View](http://viewjs.com/) | [jQuery Model](http://modeljs.com/)
+**See Also:** [jQuery View](http://viewjs.com/)
 
 Rails style routing for jQuery. Enables back button support, deep linking and allows
 methods to be called by normal links in your application without adding an event handler.

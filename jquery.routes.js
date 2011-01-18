@@ -18,7 +18,7 @@
  * jQuery Routes
  * =============
  * **Download:** [Development](https://github.com/syntacticx/routesjs/zipball/master) | [Production (6KB)](https://github.com/syntacticx/routesjs/raw/master/jquery.routes.min.js)  
- * **See Also:** [jQuery View](http://viewjs.com/) | [jQuery Model](http://modeljs.com/)
+ * **See Also:** [jQuery View](http://viewjs.com/)
  * 
  */ 
 ;(function($,context){
