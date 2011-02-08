@@ -123,18 +123,18 @@
    * -------
    * 
    */
-  $.routes = function(routes,lazy_loading){
+  $.routes = function(_routes,lazy_loading){
     if(typeof($.address) == 'undefined'){
       throw 'jQuery Address (http://www.asual.com/jquery/address/) is required to run jQuery View Routes';
     }
-    if(typeof(routes) == 'function'){
+    if(typeof(_routes) == 'function'){
       $.address.bind('externalChange',function(){
         routes(window.location.href.match('#') ? window.location.href.split('#').pop() : '');
       });
-    }else if(routes === false){
+    }else if(_routes === false){
       $($.address).unbind('externalChange');
-    }else if(typeof(routes) == 'string'){
-      var method_name = routes;
+    }else if(typeof(_routes) == 'string'){
+      var method_name = _routes;
       if(method_name == 'start'){
         return start();
       }
@@ -161,7 +161,12 @@
       }
       throw method_name + ' is not a supported method.';
     }else{
-      set_routes(routes);
+      for(var key in _routes){
+        if(typeof(_routes[key]) === 'string' && !_routes[key].match(/(\#|\.)/)){
+          _routes[key] += '#set';
+        }
+      }
+      set_routes(_routes);
       if(!lazy_loading){
         for(var i = 0; i < routes.length; ++i){
           setup(routes[i][1],i);
@@ -273,21 +278,29 @@
       return callback;
     }
     var path = routes[index_of_route][0];
-    var method_name = callback.match(/\#(.+)$/)[1];
+    var method_name = callback.match(/\#(.+)$/);
+    if(!method_name){
+      method_name = 'set';
+    }else{
+      method_name = method_name[1];
+    }
     var object_name_bits = callback.replace(/\#.+$/,'').split('.');
     //context was set by the outer function wrapper and usually refers to window
     var object = context[object_name_bits[0]];
     for(var i = 1; i < object_name_bits.length; ++i){
       object = object[object_name_bits[i]];
     }
+    if(typeof(object) === 'undefined'){
+      throw 'Could not find the object "' + object_name_bits.join('.') + '"';
+    }
     object = object.instance();
+    if(typeof(object[method_name]) === 'undefined'){
+      throw 'The method "' + method_name + '" does not exist for the route "' + path + '"';
+    }
     if('callOriginal' in object[method_name]){
       return object[method_name];
     }
     var original_method = object[method_name];
-    if(typeof(object[method_name]) == 'undefined'){
-      throw 'The method "' + method_name + '" does not exist for the route "' + path + '"';
-    }
     object[method_name] = function routing_wrapper(params){
       set_address(generate_url(path,params));
       original_method.apply(object,arguments);

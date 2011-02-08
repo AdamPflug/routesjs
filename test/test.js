@@ -23,6 +23,13 @@ ViewWithRoutes = $.view(function(){
   }
 });
 
+ImplicitSetView = $.view(function(){
+  this.bind('change:key',function(value){
+    this.value = value;
+  },this);
+  return this.div();
+});
+
 Deep = {
   Nested: {
     TestView: $.view(function(){
@@ -37,6 +44,7 @@ Deep = {
 
 $.routes({
   '/': 'ViewWithRoutes#home',
+  '/implicit_set/(:key)': 'ImplicitSetView',
   '/article/:id': 'ViewWithRoutes#article',
   '/article/:id/:comment_id': 'ViewWithRoutes#articleComment',
   '/wiki/*': 'ViewWithRoutes#wiki',
@@ -45,8 +53,8 @@ $.routes({
   '/one/:a/(:b)/(:c)': 'ViewWithRoutes#optionalTwo',
   '/one/:a/(:b)/(:c)/(:d)/(:e)': 'ViewWithRoutes#optionalThree',
   '/:ViewWithRoutes/:method/:id': 'ViewWithRoutes#test',
-  '/nested_test/': 'Deep.Nested.TestView#test',
-  '/extra_params/:a': ['ViewWithRoutes#extraParams',{b:'b'}]
+  '/nested_test/': 'Deep.Nested.TestView#test'//,
+  //'/extra_params/:a': ['ViewWithRoutes#extraParams',{b:'b'}]
 });
 
 test('Url generation',function(){
@@ -136,11 +144,23 @@ test("Extra params are passed to anon calback",function(){
 asyncTest('Method calling and dispatch modifies address',function(){
   setTimeout(function(){
     start();
+    
     ViewWithRoutes.instance().home();
     ViewWithRoutes.instance().article({
       id: 5
     });
     equal($.routes('get'),$.routes('url','ViewWithRoutes#article',{id:'5'}));
     equal(ViewWithRoutes.instance().lastParams.id,5);
+    
+    
+    //test implicit view
+    ImplicitSetView.instance().set({key:'value'});
+    equal($.routes('get'),$.routes('url','ImplicitSetView#set',{key:'value'}));
+    equal(ImplicitSetView.instance().value,'value');
+
+    $.routes('set','/implicit_set/value2');
+    equal($.routes('get'),$.routes('url','ImplicitSetView#set',{key:'value2'}));
+    equal(ImplicitSetView.instance().value,'value2');
+    
   },50);
 });
