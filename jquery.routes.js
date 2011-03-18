@@ -246,7 +246,9 @@
       if(matches){
         var params = {};
         for(var ii = 0; ii < route_patterns[i][1].length; ++ii){
-          params[route_patterns[i][1][ii]] = matches[((ii + 1) * 3) - 1];
+          if (typeof(matches[((ii + 1) * 3) - 1]) != 'undefined') {
+            params[route_patterns[i][1][ii]] = matches[((ii + 1) * 3) - 1];
+          }
         }
         return [setup(routes[i][1],i),params,i];
       }
@@ -378,7 +380,7 @@
     var params = [];
     var reg_exp_pattern = String(path);
     reg_exp_pattern = reg_exp_pattern.replace(/\((\:?[\w]+)\)/g,function(){
-      return '' + arguments[1] + '?'; //regex for optional params "/:one/:two/(:three)"
+      return '?' + arguments[1] + '?'; //regex for optional params "/:one/:two/(:three)"
     });
     reg_exp_pattern = reg_exp_pattern.replace(/\:([\w]+)(\/?)/g,function(){
       params.push(arguments[1]);
