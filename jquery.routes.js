@@ -129,7 +129,7 @@
     }
     if(typeof(_routes) == 'function'){
       $.address.bind('externalChange',function(){
-        routes(window.location.href.match('#') ? window.location.href.split('#').pop() : '');
+        routes($.address.value());
       });
     }else if(_routes === false){
       $($.address).unbind('externalChange');
@@ -194,8 +194,7 @@
    * Returns the current address / path.
    */
   function get(){
-    var path_bits = window.location.href.split('#');
-    return path_bits[1] && (path_bits[1].match(/^\//) || path_bits[1] == '') ? path_bits[1] : '';
+    return $.address.value();
   };
   
   /* ### $.routes("set") *-> null*
